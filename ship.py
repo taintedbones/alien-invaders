@@ -2,7 +2,7 @@ import pygame
 
 
 class Ship:
-    def __init__(self, screen):
+    def __init__(self, screen, settings):
         self.screen = screen
 
         self.image = pygame.image.load('Images/ship.png')
@@ -12,6 +12,19 @@ class Ship:
         r, sr = self.rect, self.screen_rect
         r.centerx = sr.centerx
         r.bottom = sr.bottom
+
+        self.moving_right = False
+        self.moving_left = False
+        self.settings = settings
+        self.center = float(r.centerx)
+
+    def update(self):
+        if self.moving_right:
+            self.center += self.settings.ship_speed_factor
+        if self.moving_left:
+            self.center -= self.settings.ship_speed_factor
+
+        self.rect.centerx = self.center
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
